@@ -37,7 +37,7 @@ x_len = 48000
 x = np.arange(x_len)
 y = y2(x_len)
 plt.figure(figsize=(10, 5))
-plt.plot(x/x_len, y)
+plt.plot(x / x_len, y)
 plt.show()
 
 # tone1是旋律音
@@ -62,6 +62,11 @@ def gen_signal(tone1, y1):
         t = range(rym1[n])
         t = np.array(t) / fs
         N = len(t)
+        # 琴弦振动的频率是和谐，即基频+谐频。公式为:f_{n}=\frac{n}{2 l} \sqrt{\frac{T}{\mu}}
+        # 其中，i为弦长，T为弦的张力，μ为弦的线密度。当n=1时，f₁是弦振动最低的固有频率也就是弦的基频,
+        # 其余的高次频率称为泛频，它们都为基频的整数倍，因而也称具有这样简单关系的固有频率为谐频。
+        # 弦振动时激发的固有频率都是谐频，所以弦乐器一般听起来音色都是和谐的。
+        # Ref: 21db的文章《钢琴竟然是这样发声的》
         a1 = (0.6882 * np.sin(2 * np.pi * tone1[n] * t) + np.sin(4 * np.pi * tone1[n] * t) + 0.9217 * np.sin(
             6 * np.pi * tone1[n] * t) + 0.2318 * np.sin(8 * np.pi * tone1[n] * t) + 0.0524 * np.sin(
             10 * np.pi * tone1[n] * t) + 0.1355 * np.sin(
